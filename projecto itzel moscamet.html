@@ -1,0 +1,1801 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ingeniería Química & MOSCAMED | Colegio Miguel Hidalgo</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ─── TOKEN SYSTEM ─── */
+  :root {
+    --verde-selva:    #2D6A4F;
+    --verde-hoja:     #40916C;
+    --verde-claro:    #74C69D;
+    --mango:          #F4A261;
+    --papaya:         #E76F51;
+    --crema-tropical: #FDF6EC;
+    --tierra:         #6B4423;
+    --cielo-nublado:  #EAF4F4;
+    --texto-oscuro:   #1B2D24;
+    --texto-medio:    #3D5A47;
+    --blanco:         #FFFFFF;
+    --sombra-suave:   0 4px 24px rgba(45,106,79,0.12);
+    --sombra-media:   0 8px 40px rgba(45,106,79,0.18);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--crema-tropical);
+    color: var(--texto-oscuro);
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(253,246,236,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(45,106,79,0.12);
+    padding: 0 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--verde-selva);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--texto-medio);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--verde-selva); }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+    padding-top: 64px;
+  }
+
+  .hero-bg-pattern {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 70% 30%, rgba(116,198,157,0.15) 0%, transparent 60%),
+      radial-gradient(ellipse at 20% 80%, rgba(244,162,97,0.12) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  /* Leaf SVG watermark */
+  .hero::before {
+    content: '';
+    position: absolute;
+    right: -80px;
+    top: 80px;
+    width: 500px;
+    height: 500px;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M100 10 C140 10 180 50 180 100 C180 150 140 185 100 185 C60 185 20 150 20 100 C20 50 60 10 100 10 Z' fill='%232D6A4F' opacity='0.06'/%3E%3Cpath d='M100 30 C130 30 160 60 160 100 C160 140 130 165 100 165 C70 165 40 140 40 100 C40 60 70 30 100 30 Z' fill='%2340916C' opacity='0.05'/%3E%3C/svg%3E") center/contain no-repeat;
+    pointer-events: none;
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 6rem 5% 4rem 8%;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--verde-hoja);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 32px;
+    height: 1.5px;
+    background: var(--verde-hoja);
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.8rem, 7.5vw, 6.5rem);
+    line-height: 1.04;
+    font-weight: 900;
+    color: var(--verde-selva);
+    margin-bottom: 1rem;
+    letter-spacing: -0.03em;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--papaya);
+  }
+
+  .hero-subtitle {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--texto-medio);
+    max-width: 440px;
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+  }
+
+  .hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .tag {
+    padding: 0.35rem 0.9rem;
+    border-radius: 100px;
+    font-size: 0.77rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+
+  .tag-green {
+    background: rgba(45,106,79,0.1);
+    color: var(--verde-selva);
+    border: 1px solid rgba(45,106,79,0.2);
+  }
+
+  .tag-orange {
+    background: rgba(244,162,97,0.15);
+    color: var(--tierra);
+    border: 1px solid rgba(244,162,97,0.3);
+  }
+
+  .hero-authors {
+    font-size: 0.82rem;
+    color: var(--texto-medio);
+    line-height: 1.8;
+    border-left: 3px solid var(--verde-claro);
+    padding-left: 1rem;
+  }
+
+  .hero-authors strong {
+    display: block;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--verde-hoja);
+    margin-bottom: 0.4rem;
+  }
+
+  .hero-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6rem 6% 4rem 2%;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-card {
+    background: var(--blanco);
+    border-radius: 24px;
+    box-shadow: var(--sombra-media);
+    padding: 2.5rem;
+    max-width: 380px;
+    width: 100%;
+    border: 1px solid rgba(116,198,157,0.2);
+  }
+
+  .hero-card-icon {
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, var(--verde-selva), var(--verde-hoja));
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.6rem;
+  }
+
+  .hero-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--verde-selva);
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-card p {
+    font-size: 0.85rem;
+    color: var(--texto-medio);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .stat-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .stat-box {
+    background: var(--cielo-nublado);
+    border-radius: 12px;
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--verde-selva);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.72rem;
+    color: var(--texto-medio);
+    margin-top: 0.3rem;
+    line-height: 1.4;
+  }
+
+  /* ─── SECTION COMMONS ─── */
+  section {
+    padding: 6rem 8%;
+  }
+
+  .section-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--mango);
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 900;
+    color: var(--verde-selva);
+    margin-bottom: 1.2rem;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+
+  .section-lead {
+    font-size: 1rem;
+    color: var(--texto-medio);
+    line-height: 1.75;
+    max-width: 600px;
+    font-weight: 300;
+  }
+
+  .section-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(45,106,79,0.15), transparent);
+    margin: 0;
+  }
+
+  /* ─── HISTORIA (IQ) ─── */
+  .historia-section {
+    background: linear-gradient(135deg, #0D2B1E 0%, #1B4332 40%, #2D6A4F 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .historia-section::before {
+    content: '⚗';
+    position: absolute;
+    right: 5%;
+    bottom: -2rem;
+    font-size: 22rem;
+    opacity: 0.04;
+    pointer-events: none;
+    line-height: 1;
+  }
+
+  .historia-section .section-eyebrow {
+    color: var(--verde-claro);
+  }
+
+  .historia-section .section-title {
+    color: var(--blanco);
+    font-size: clamp(2.4rem, 4vw, 3.5rem);
+    position: relative;
+    display: inline-block;
+    padding-bottom: 0.5rem;
+  }
+
+  .historia-section .section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(to right, var(--mango), var(--papaya));
+    border-radius: 2px;
+  }
+
+  .historia-section .section-lead {
+    color: rgba(255,255,255,0.75);
+    font-size: 1.08rem;
+    max-width: 680px;
+    background: rgba(255,255,255,0.06);
+    border-left: 4px solid var(--mango);
+    padding: 1rem 1.5rem;
+    border-radius: 0 10px 10px 0;
+    margin-top: 1.5rem;
+  }
+
+  .historia-section .historia-main p {
+    color: rgba(255,255,255,0.78);
+    font-weight: 300;
+  }
+
+  .historia-section .timeline-year {
+    color: var(--mango);
+  }
+
+  .historia-section .timeline-text {
+    color: rgba(255,255,255,0.72);
+  }
+
+  .historia-section .historia-timeline::before {
+    background: linear-gradient(to bottom, var(--mango), var(--verde-claro), transparent);
+  }
+
+  .historia-section .timeline-item::before {
+    background: var(--mango);
+    border-color: #1B4332;
+  }
+
+  /* IQ highlight badge */
+  .iq-highlight-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    background: linear-gradient(135deg, var(--mango), var(--papaya));
+    color: #fff;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.5rem 1.2rem;
+    border-radius: 100px;
+    margin-bottom: 1.2rem;
+    box-shadow: 0 4px 20px rgba(231,111,81,0.4);
+  }
+
+  .historia-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 5rem;
+    margin-top: 3.5rem;
+    align-items: start;
+  }
+
+  .historia-timeline {
+    position: relative;
+    padding-left: 1.5rem;
+  }
+
+  .historia-timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--verde-hoja), var(--verde-claro), transparent);
+  }
+
+  .timeline-item {
+    margin-bottom: 2.5rem;
+    padding-left: 1.5rem;
+    position: relative;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -1.95rem;
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--mango);
+    border: 2px solid var(--blanco);
+    box-shadow: 0 0 0 3px rgba(244,162,97,0.3);
+  }
+
+  .timeline-year {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--verde-hoja);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.4rem;
+  }
+
+  .timeline-text {
+    font-size: 0.9rem;
+    color: var(--texto-medio);
+    line-height: 1.65;
+  }
+
+  .historia-section .historia-main p {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.78);
+    font-weight: 300;
+    margin-bottom: 1.2rem;
+  }
+
+  /* ─── PERFILES ─── */
+  .perfiles-section {
+    background: var(--crema-tropical);
+  }
+
+  .perfiles-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 3.5rem;
+  }
+
+  .perfil-card {
+    background: var(--blanco);
+    border-radius: 20px;
+    padding: 2.5rem;
+    box-shadow: var(--sombra-suave);
+    border: 1px solid rgba(116,198,157,0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .perfil-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--sombra-media);
+  }
+
+  .perfil-card-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .perfil-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+  }
+
+  .perfil-icon.ingreso { background: rgba(244,162,97,0.15); }
+  .perfil-icon.egreso  { background: rgba(45,106,79,0.1); }
+
+  .perfil-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--verde-selva);
+  }
+
+  .perfil-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .perfil-list li {
+    font-size: 0.9rem;
+    color: var(--texto-medio);
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(116,198,157,0.12);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    line-height: 1.5;
+  }
+
+  .perfil-list li:last-child { border-bottom: none; }
+
+  .perfil-list li::before {
+    content: '▸';
+    color: var(--verde-claro);
+    font-size: 0.7rem;
+    flex-shrink: 0;
+    margin-top: 0.25rem;
+  }
+
+  /* ─── PLAN DE ESTUDIOS ─── */
+  .plan-section {
+    background: linear-gradient(160deg, var(--verde-selva) 0%, #1B4332 100%);
+    color: var(--blanco);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .plan-section::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: rgba(116,198,157,0.08);
+    pointer-events: none;
+  }
+
+  .plan-section .section-eyebrow { color: var(--verde-claro); }
+  .plan-section .section-title   { color: var(--blanco); }
+  .plan-section .section-lead    { color: rgba(255,255,255,0.7); }
+
+  .materias-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 3rem;
+  }
+
+  .materia-chip {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 10px;
+    padding: 0.9rem 1.2rem;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.88);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    transition: background 0.2s;
+  }
+
+  .materia-chip:hover {
+    background: rgba(116,198,157,0.15);
+    border-color: rgba(116,198,157,0.3);
+  }
+
+  .materia-chip .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--mango);
+    flex-shrink: 0;
+  }
+
+  /* ─── CAMPO LABORAL ─── */
+  .campo-section {
+    background: var(--cielo-nublado);
+  }
+
+  .campo-cards {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.2rem;
+    margin-top: 3rem;
+  }
+
+  .campo-card {
+    background: var(--blanco);
+    border-radius: 16px;
+    padding: 2rem 1.2rem 1.5rem;
+    text-align: center;
+    box-shadow: var(--sombra-suave);
+    border: 1px solid rgba(116,198,157,0.15);
+    transition: transform 0.25s, box-shadow 0.25s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0;
+  }
+
+  .campo-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--sombra-media);
+  }
+
+  .campo-card .emoji {
+    font-size: 3.4rem;
+    margin-bottom: 1rem;
+    line-height: 1;
+    display: block;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.1));
+  }
+
+  .campo-card p {
+    font-size: 0.82rem;
+    color: var(--texto-medio);
+    line-height: 1.45;
+    font-weight: 500;
+  }
+
+  /* ─── ETICA ─── */
+  .etica-section {
+    background: var(--blanco);
+  }
+
+  .etica-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    margin-top: 3.5rem;
+    align-items: start;
+  }
+
+  .valores-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .valor-item {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 1.2rem 1.5rem;
+    background: var(--crema-tropical);
+    border-radius: 12px;
+    border-left: 4px solid var(--verde-claro);
+    transition: border-color 0.2s;
+  }
+
+  .valor-item:hover { border-left-color: var(--verde-selva); }
+
+  .valor-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--verde-hoja);
+    letter-spacing: 0.1em;
+    flex-shrink: 0;
+  }
+
+  .valor-name {
+    font-weight: 600;
+    color: var(--verde-selva);
+    font-size: 0.95rem;
+  }
+
+  .etica-quote {
+    background: linear-gradient(135deg, var(--verde-selva), var(--verde-hoja));
+    border-radius: 20px;
+    padding: 2.5rem;
+    color: var(--blanco);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .etica-quote::before {
+    content: '"';
+    position: absolute;
+    top: -1rem;
+    left: 1.5rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 10rem;
+    color: rgba(255,255,255,0.06);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .etica-quote p {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ─── DIVIDER TROPICAL ─── */
+  .tropical-divider {
+    padding: 3rem 8%;
+    background: linear-gradient(90deg, var(--crema-tropical), var(--cielo-nublado), var(--crema-tropical));
+    text-align: center;
+    position: relative;
+  }
+
+  .tropical-divider::before,
+  .tropical-divider::after {
+    content: '🌿';
+    font-size: 1.5rem;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .tropical-divider::before { left: 20%; }
+  .tropical-divider::after  { right: 20%; }
+
+  .tropical-divider h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-style: italic;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--verde-selva), var(--mango));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .tropical-divider p {
+    font-size: 0.9rem;
+    color: var(--texto-medio);
+    margin-top: 0.8rem;
+    font-weight: 300;
+  }
+
+  /* ─── MOSCAMED ─── */
+  .mosca-hero {
+    background: var(--crema-tropical);
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+
+  .mosca-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.4rem 1rem 0.4rem 0.6rem;
+    background: rgba(231,111,81,0.12);
+    border-radius: 100px;
+    border: 1px solid rgba(231,111,81,0.25);
+    margin-bottom: 1.5rem;
+  }
+
+  .mosca-badge-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--papaya);
+    animation: pulse-dot 2s infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.6; transform: scale(0.85); }
+  }
+
+  .mosca-badge span {
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--papaya);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .mosca-stat-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .mosca-stat {
+    background: var(--blanco);
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
+    box-shadow: var(--sombra-suave);
+    border: 1px solid rgba(116,198,157,0.15);
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .mosca-stat-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+  }
+
+  .mosca-stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--verde-selva);
+    line-height: 1;
+  }
+
+  .mosca-stat-desc {
+    font-size: 0.82rem;
+    color: var(--texto-medio);
+    margin-top: 0.3rem;
+  }
+
+  /* ─── FILOSOFIA ─── */
+  .filosofia-section {
+    background: var(--blanco);
+  }
+
+  .filosofia-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .filo-card {
+    border-radius: 20px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .filo-card.mision {
+    background: linear-gradient(135deg, var(--verde-selva) 0%, #1B4332 100%);
+    color: var(--blanco);
+    grid-column: span 2;
+  }
+
+  .filo-card.vision {
+    background: linear-gradient(135deg, var(--mango) 0%, var(--papaya) 100%);
+    color: var(--blanco);
+  }
+
+  .filo-card-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-bottom: 1rem;
+  }
+
+  .filo-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-style: italic;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+    opacity: 0.95;
+  }
+
+  .filo-card p {
+    font-size: 0.88rem;
+    line-height: 1.7;
+    opacity: 0.85;
+  }
+
+  /* valores mosca */
+  .mosca-valores {
+    margin-top: 2rem;
+  }
+
+  .mosca-valores-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.8rem;
+    margin-top: 1.5rem;
+  }
+
+  .mosca-valor-chip {
+    background: var(--crema-tropical);
+    border: 1px solid rgba(45,106,79,0.15);
+    border-radius: 10px;
+    padding: 0.9rem;
+    text-align: center;
+    font-size: 0.83rem;
+    font-weight: 600;
+    color: var(--verde-selva);
+    transition: all 0.2s;
+  }
+
+  .mosca-valor-chip:hover {
+    background: var(--verde-selva);
+    color: var(--blanco);
+    border-color: transparent;
+    transform: scale(1.02);
+  }
+
+  /* ─── HISTORIA MOSCAMED ─── */
+  .mosca-historia {
+    background: linear-gradient(160deg, #1B4332 0%, var(--verde-selva) 60%, #2D6A4F 100%);
+    color: var(--blanco);
+    padding: 6rem 8%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .mosca-historia::after {
+    content: '🦟';
+    position: absolute;
+    right: 8%;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12rem;
+    opacity: 0.06;
+    pointer-events: none;
+  }
+
+  .mosca-historia .section-eyebrow { color: var(--mango); }
+  .mosca-historia .section-title   { color: var(--blanco); }
+
+  .historia-mosca-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 4rem;
+    margin-top: 3rem;
+    align-items: start;
+    position: relative;
+    z-index: 1;
+  }
+
+  .historia-mosca-content p {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.82);
+    font-weight: 300;
+    margin-bottom: 1.2rem;
+  }
+
+  .historia-mosca-aside {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 16px;
+    padding: 2rem;
+  }
+
+  .aside-stat {
+    text-align: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .aside-stat:last-child { border-bottom: none; }
+
+  .aside-stat .num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--mango);
+  }
+
+  .aside-stat .desc {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.65);
+    margin-top: 0.3rem;
+    line-height: 1.4;
+  }
+
+  /* ─── TÉCNICA ESTÉRIL ─── */
+  .tecnica-section {
+    background: var(--crema-tropical);
+    padding: 6rem 8%;
+  }
+
+  .tecnica-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin-top: 3.5rem;
+    position: relative;
+  }
+
+  .tecnica-steps::before {
+    content: '';
+    position: absolute;
+    top: 2.5rem;
+    left: 12.5%;
+    right: 12.5%;
+    height: 2px;
+    background: linear-gradient(to right, var(--verde-claro), var(--mango));
+    z-index: 0;
+  }
+
+  .step {
+    text-align: center;
+    padding: 0 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .step-circle {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    margin: 0 auto 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    border: 3px solid var(--blanco);
+    box-shadow: var(--sombra-suave);
+  }
+
+  .step-circle.s1 { background: linear-gradient(135deg, #B7E4C7, var(--verde-claro)); }
+  .step-circle.s2 { background: linear-gradient(135deg, var(--verde-claro), var(--verde-hoja)); }
+  .step-circle.s3 { background: linear-gradient(135deg, var(--verde-hoja), var(--verde-selva)); }
+  .step-circle.s4 { background: linear-gradient(135deg, var(--mango), var(--papaya)); }
+
+  .step h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    color: var(--verde-selva);
+    margin-bottom: 0.5rem;
+  }
+
+  .step p {
+    font-size: 0.82rem;
+    color: var(--texto-medio);
+    line-height: 1.5;
+  }
+
+  /* ─── UBICACION ─── */
+  .ubicacion-section {
+    background: var(--cielo-nublado);
+    padding: 6rem 8%;
+  }
+
+  .ubicacion-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .ubi-card {
+    background: var(--blanco);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: var(--sombra-suave);
+    border-top: 4px solid var(--verde-claro);
+  }
+
+  .ubi-card:first-child { border-top-color: var(--papaya); }
+  .ubi-card:last-child  { border-top-color: var(--mango); }
+
+  .ubi-card .place-icon { font-size: 2.8rem; margin-bottom: 1rem; line-height: 1; display: block; }
+
+  .ubi-card h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--verde-selva);
+    margin-bottom: 0.5rem;
+  }
+
+  .ubi-card p {
+    font-size: 0.83rem;
+    color: var(--texto-medio);
+    line-height: 1.6;
+  }
+
+  /* ─── OFERTA EDUCATIVA ─── */
+  .oferta-section {
+    background: var(--blanco);
+    padding: 6rem 8%;
+  }
+
+  .oferta-tabs {
+    display: flex;
+    gap: 0;
+    margin-top: 3rem;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: var(--sombra-suave);
+    border: 1px solid rgba(116,198,157,0.2);
+  }
+
+  .oferta-tab {
+    flex: 1;
+    padding: 1.2rem;
+    background: var(--crema-tropical);
+    border: none;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--texto-medio);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    transition: all 0.2s;
+    border-right: 1px solid rgba(116,198,157,0.2);
+  }
+
+  .oferta-tab:last-child { border-right: none; }
+  .oferta-tab.active { background: var(--verde-selva); color: var(--blanco); }
+  .oferta-tab:hover:not(.active) { background: rgba(116,198,157,0.15); }
+
+  .oferta-content { margin-top: 2rem; }
+
+  .oferta-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+  }
+
+  .oferta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1rem 1.2rem;
+    background: var(--crema-tropical);
+    border-radius: 10px;
+    border: 1px solid rgba(116,198,157,0.15);
+    font-size: 0.88rem;
+    color: var(--texto-medio);
+  }
+
+  .oferta-item::before {
+    content: '🎓';
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  /* ─── CONCLUSIONES ─── */
+  .conclusiones-section {
+    background: linear-gradient(160deg, var(--crema-tropical) 0%, var(--cielo-nublado) 100%);
+    padding: 6rem 8%;
+  }
+
+  .conclusiones-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 4rem;
+    margin-top: 3.5rem;
+    align-items: start;
+  }
+
+  .conclusion-text p {
+    font-size: 1rem;
+    line-height: 1.85;
+    color: var(--texto-medio);
+    font-weight: 300;
+    margin-bottom: 1.2rem;
+  }
+
+  .sugerencias-box {
+    background: var(--verde-selva);
+    border-radius: 20px;
+    padding: 2rem;
+    color: var(--blanco);
+  }
+
+  .sugerencias-box h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    font-style: italic;
+  }
+
+  .sugerencias-box p {
+    font-size: 0.87rem;
+    line-height: 1.7;
+    opacity: 0.85;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--texto-oscuro);
+    color: rgba(255,255,255,0.7);
+    padding: 3rem 8%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 3rem;
+    font-size: 0.82rem;
+  }
+
+  footer h5 {
+    font-family: 'Playfair Display', serif;
+    color: var(--blanco);
+    margin-bottom: 0.8rem;
+    font-size: 0.95rem;
+  }
+
+  footer p { line-height: 1.7; }
+
+  .footer-authors { line-height: 2; }
+
+  .footer-bottom {
+    background: var(--texto-oscuro);
+    border-top: 1px solid rgba(255,255,255,0.08);
+    text-align: center;
+    padding: 1.2rem 8%;
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.4);
+  }
+
+  /* ─── SCROLL REVEAL ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-visual { display: none; }
+    .historia-grid,
+    .perfiles-grid,
+    .etica-grid,
+    .mosca-hero,
+    .historia-mosca-content,
+    .conclusiones-grid,
+    .filosofia-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .campo-cards { grid-template-columns: repeat(2, 1fr); }
+    .materias-grid { grid-template-columns: repeat(2, 1fr); }
+    .tecnica-steps { grid-template-columns: repeat(2, 1fr); }
+    .tecnica-steps::before { display: none; }
+    .mosca-valores-grid { grid-template-columns: repeat(2, 1fr); }
+    .ubicacion-grid { grid-template-columns: 1fr; }
+    .oferta-list { grid-template-columns: 1fr; }
+    .filo-card.mision { grid-column: span 1; }
+    footer { grid-template-columns: 1fr; }
+    nav .nav-links { display: none; }
+    section { padding: 4rem 5%; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── NAVEGACIÓN ─── -->
+<nav>
+  <div class="nav-logo">IQ × MOSCAMED</div>
+  <ul class="nav-links">
+    <li><a href="#ingenieria">Ingeniería Química</a></li>
+    <li><a href="#moscamed">MOSCAMED</a></li>
+    <li><a href="#tecnica">Técnica Estéril</a></li>
+    <li><a href="#conclusiones">Conclusiones</a></li>
+  </ul>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section class="hero" id="inicio">
+  <div class="hero-bg-pattern"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Colegio Miguel Hidalgo · Tapachula, Chiapas · 2026</div>
+    <h1 class="hero-title">
+      Ingeniería<br>
+      <em>Química</em>
+    </h1>
+    <p class="hero-subtitle">
+      Análisis del impacto laboral de la carrera de Ingeniería Química en el programa de prevención y erradicación de la mosca del Mediterráneo en Tapachula, Chiapas.
+    </p>
+    <div class="hero-tags">
+      <span class="tag tag-green">Ingeniería Química</span>
+      <span class="tag tag-green">Control Biológico</span>
+      <span class="tag tag-orange">Tapachula, Chiapas</span>
+      <span class="tag tag-orange">Periodo Feb–Jun 2025</span>
+    </div>
+    <div class="hero-authors">
+      <strong>Presentan</strong>
+      De la Cruz Gómez Eli Alberto<br>
+      Gerardo Barrios Itzel Alejandra<br>
+      Hernandez Dorry Andrea<br>
+      Hernández Martínez Darell de Jesús
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-card">
+      <div class="hero-card-icon">🌿</div>
+      <h3>Impacto laboral real</h3>
+      <p>Una mirada directa a cómo la Ingeniería Química transforma procesos biológicos en soluciones agrícolas de escala nacional.</p>
+      <div class="stat-row">
+        <div class="stat-box">
+          <div class="stat-num">500M</div>
+          <div class="stat-label">pupas producidas por semana</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">1982</div>
+          <div class="stat-label">México libre de la plaga</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ─── INGENIERÍA QUÍMICA ─── -->
+<section class="historia-section" id="ingenieria">
+  <div class="iq-highlight-badge">⚗️ Carrera destacada</div>
+  <div class="section-eyebrow reveal">Historia de la disciplina</div>
+  <h2 class="section-title reveal">Ingeniería Química</h2>
+  <p class="section-lead reveal">Una de las ramas más diversas de la ingeniería, integra ciencias físicas, biológicas, matemáticas y económicas para transformar materias primas en productos de alto valor.</p>
+  <div class="historia-grid">
+    <div class="historia-timeline reveal">
+      <div class="timeline-item">
+        <div class="timeline-year">1824</div>
+        <div class="timeline-text"><strong>Sadi Carnot</strong> publica su investigación sobre la energía motriz del fuego, sentando las bases de la termodinámica.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">1850s</div>
+        <div class="timeline-text"><strong>Rudolf Clausius</strong> aplica los principios de Carnot a sistemas químicos a escala molecular.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">1873–1876</div>
+        <div class="timeline-text"><strong>Josiah Willard Gibbs</strong> desarrolla metodología matemática para el estudio de sistemas químicos usando la termodinámica de Clausius en Yale.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">1882</div>
+        <div class="timeline-text"><strong>Hermann von Helmholtz</strong> publica los fundamentos de la termodinámica con base electroquímica, demostrando la energía libre de reacción.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">1960</div>
+        <div class="timeline-text">Nace el segundo gran paradigma con el libro <em>Fenómenos de Transporte</em> de Bird, Stewart y Lightfoot.</div>
+      </div>
+    </div>
+    <div class="historia-main reveal">
+      <p>La Ingeniería Química evolucionó desde ser una extensión de la Ingeniería Mecánica aplicada a la producción de sustancias, hasta convertirse en una ciencia propia estructurada alrededor de fenómenos y procesos vinculados con la transformación de materiales.</p>
+      <p>En la actualidad, el ingeniero químico combina matemáticas, química, física, biología y economía para diseñar, optimizar y controlar procesos industriales. Su trabajo abarca desde la investigación y desarrollo de nuevos productos, hasta la mejora continua de la eficiencia, la seguridad y la sostenibilidad ambiental.</p>
+      <p>Como quedó demostrado durante la visita a MOSCAMED, esta disciplina también se aplica en el control biológico, el tratamiento de aguas residuales, la normatividad ambiental y la optimización de procesos vivos a escala industrial.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PERFILES ─── -->
+<section class="perfiles-section" id="perfiles">
+  <div class="section-eyebrow reveal">Requisitos y competencias</div>
+  <h2 class="section-title reveal">Perfil del estudiante</h2>
+  <div class="perfiles-grid">
+    <div class="perfil-card reveal">
+      <div class="perfil-card-header">
+        <div class="perfil-icon ingreso">🔬</div>
+        <h3>Perfil de ingreso</h3>
+      </div>
+      <ul class="perfil-list">
+        <li>Formación sólida en ciencias básicas del nivel medio superior</li>
+        <li>Conocimientos en computación, matemáticas, física y química</li>
+        <li>Cultura ambiental y desarrollo sustentable</li>
+        <li>Habilidades analíticas y creativas para la resolución de problemas</li>
+        <li>Capacidad de trabajo en equipo</li>
+        <li>Lectura y comprensión de textos técnicos y científicos</li>
+      </ul>
+    </div>
+    <div class="perfil-card reveal">
+      <div class="perfil-card-header">
+        <div class="perfil-icon egreso">🏭</div>
+        <h3>Perfil de egreso</h3>
+      </div>
+      <ul class="perfil-list">
+        <li>Diseñar, seleccionar, operar, optimizar y controlar procesos industriales</li>
+        <li>Planear e implementar sistemas de gestión de calidad, ambiental e higiene</li>
+        <li>Colaborar en equipos interdisciplinarios y multiculturales</li>
+        <li>Utilizar tecnologías de la información para resolver problemas</li>
+        <li>Realizar innovación y adaptación de tecnología</li>
+        <li>Comunicarse de forma oral y escrita con precisión técnica</li>
+        <li>Administrar recursos humanos, materiales y financieros</li>
+        <li>Actuar con ética profesional e integridad en cada decisión</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PLAN DE ESTUDIOS ─── -->
+<section class="plan-section" id="plan">
+  <div class="section-eyebrow reveal">9 semestres de formación</div>
+  <h2 class="section-title reveal">Plan de estudios</h2>
+  <p class="section-lead reveal">La carrera integra materias de ciencias exactas, procesos industriales y administración para formar ingenieros con visión completa.</p>
+  <div class="materias-grid">
+    <div class="materia-chip reveal"><span class="dot"></span>Matemáticas I, II y III</div>
+    <div class="materia-chip reveal"><span class="dot"></span>Química I, II y III</div>
+    <div class="materia-chip reveal"><span class="dot"></span>Fisicoquímica I y II</div>
+    <div class="materia-chip reveal"><span class="dot"></span>Bioestadística</div>
+    <div class="materia-chip reveal"><span class="dot"></span>Balance de Masa y Energía</div>
+    <div class="materia-chip reveal"><span class="dot"></span>Fenómenos de Transporte</div>
+    <div class="materia-chip reveal"><span class="dot"></span>Química Industrial</div>
+    <div class="materia-chip reveal"><span class="dot"></span>Flujo de Fluidos</div>
+    <div class="materia-chip reveal"><span class="dot"></span>Transferencia de Calor</div>
+    <div class="materia-chip reveal"><span class="dot"></span>Transferencia de Masa</div>
+    <div class="materia-chip reveal"><span class="dot"></span>Termodinámica Química</div>
+    <div class="materia-chip reveal"><span class="dot"></span>Ingeniería de Reactores</div>
+    <div class="materia-chip reveal"><span class="dot"></span>Ingeniería de Procesos</div>
+    <div class="materia-chip reveal"><span class="dot"></span>Dinámica y Control de Procesos</div>
+    <div class="materia-chip reveal"><span class="dot"></span>Ingeniería Económica</div>
+  </div>
+</section>
+
+<!-- ─── CAMPO LABORAL ─── -->
+<section class="campo-section" id="campo">
+  <div class="section-eyebrow reveal">Oportunidades profesionales</div>
+  <h2 class="section-title reveal">Campo laboral</h2>
+  <p class="section-lead reveal">La Ingeniería Química ofrece un campo de acción amplio que abarca desde la industria alimentaria hasta el control ambiental y la investigación científica.</p>
+  <div class="campo-cards">
+    <div class="campo-card reveal">
+      <div class="emoji">⚗️</div>
+      <p>Industria química y petroquímica</p>
+    </div>
+    <div class="campo-card reveal">
+      <div class="emoji">💊</div>
+      <p>Industria farmacéutica</p>
+    </div>
+    <div class="campo-card reveal">
+      <div class="emoji">🍃</div>
+      <p>Industria alimentaria y de bebidas</p>
+    </div>
+    <div class="campo-card reveal">
+      <div class="emoji">⚡</div>
+      <p>Producción de energía y combustibles</p>
+    </div>
+    <div class="campo-card reveal">
+      <div class="emoji">🌊</div>
+      <p>Tratamiento de agua y control ambiental</p>
+    </div>
+    <div class="campo-card reveal">
+      <div class="emoji">🏗️</div>
+      <p>Industria metalúrgica y minera</p>
+    </div>
+    <div class="campo-card reveal">
+      <div class="emoji">🧪</div>
+      <p>Plásticos y polímeros</p>
+    </div>
+    <div class="campo-card reveal">
+      <div class="emoji">🔬</div>
+      <p>Investigación científica y desarrollo</p>
+    </div>
+    <div class="campo-card reveal">
+      <div class="emoji">🧵</div>
+      <p>Industria textil</p>
+    </div>
+    <div class="campo-card reveal">
+      <div class="emoji">📚</div>
+      <p>Docencia universitaria</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── OFERTA EDUCATIVA ─── -->
+<section class="oferta-section" id="oferta">
+  <div class="section-eyebrow reveal">Dónde estudiarla</div>
+  <h2 class="section-title reveal">Oferta educativa</h2>
+  <div class="oferta-tabs reveal">
+    <button class="oferta-tab active" onclick="showOferta('local', this)">Local</button>
+    <button class="oferta-tab" onclick="showOferta('estatal', this)">Estatal</button>
+    <button class="oferta-tab" onclick="showOferta('nacional', this)">Nacional</button>
+  </div>
+  <div class="oferta-content" id="oferta-local">
+    <div class="oferta-list">
+      <div class="oferta-item">Instituto Tecnológico de Tapachula</div>
+    </div>
+  </div>
+  <div class="oferta-content" id="oferta-estatal" style="display:none">
+    <div class="oferta-list">
+      <div class="oferta-item">Instituto Tecnológico de Tapachula</div>
+      <div class="oferta-item">Instituto Tecnológico de Tuxtla Gutiérrez</div>
+      <div class="oferta-item">Universidad Politécnica de Chiapas</div>
+      <div class="oferta-item">Universidad Autónoma de Chiapas</div>
+      <div class="oferta-item">Universidad de Ciencias y Artes de Chiapas</div>
+      <div class="oferta-item">Universidad del Valle de México</div>
+      <div class="oferta-item">Tecnológico de Monterrey</div>
+      <div class="oferta-item">Universidad del Sur</div>
+    </div>
+  </div>
+  <div class="oferta-content" id="oferta-nacional" style="display:none">
+    <div class="oferta-list">
+      <div class="oferta-item">UNAM – Universidad Nacional Autónoma de México</div>
+      <div class="oferta-item">IPN – Instituto Politécnico Nacional</div>
+      <div class="oferta-item">UAM – Universidad Autónoma Metropolitana</div>
+      <div class="oferta-item">Universidad de Guadalajara</div>
+      <div class="oferta-item">Universidad Veracruzana</div>
+      <div class="oferta-item">BUAP – Benemérita Universidad Autónoma de Puebla</div>
+      <div class="oferta-item">UANL – Universidad Autónoma de Nuevo León</div>
+      <div class="oferta-item">UAEM – Universidad Autónoma del Estado de México</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CÓDIGO ÉTICO ─── -->
+<section class="etica-section" id="etica">
+  <div class="section-eyebrow reveal">Compromiso profesional</div>
+  <h2 class="section-title reveal">Código ético</h2>
+  <div class="etica-grid">
+    <div>
+      <p class="section-lead reveal" style="margin-bottom:2rem;">Los ingenieros químicos actúan con responsabilidad hacia la sociedad, la industria y el medio ambiente. Sus decisiones tienen impacto directo en la seguridad, la calidad y la sostenibilidad de los procesos.</p>
+      <div class="valores-list">
+        <div class="valor-item reveal">
+          <span class="valor-num">01</span>
+          <span class="valor-name">Responsabilidad</span>
+        </div>
+        <div class="valor-item reveal">
+          <span class="valor-num">02</span>
+          <span class="valor-name">Honestidad</span>
+        </div>
+        <div class="valor-item reveal">
+          <span class="valor-num">03</span>
+          <span class="valor-name">Respeto</span>
+        </div>
+        <div class="valor-item reveal">
+          <span class="valor-num">04</span>
+          <span class="valor-name">Compromiso ambiental</span>
+        </div>
+        <div class="valor-item reveal">
+          <span class="valor-num">05</span>
+          <span class="valor-name">Integridad profesional</span>
+        </div>
+      </div>
+    </div>
+    <div class="etica-quote reveal">
+      <p>La Ingeniería Química no solo transforma materia y energía; transforma comunidades. Cada decisión en el laboratorio o en la planta tiene una huella social y ambiental que el profesional está obligado a reconocer y asumir con ética.</p>
+      <br>
+      <p style="opacity:0.65; font-size:0.82rem;">— Entrevista con Ing. Monserrat Guadalupe Ochoa Gómez, especialista en IQ ambiental, MOSCAMED Tapachula</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── DIVIDER ─── -->
+<div class="tropical-divider">
+  <h2>MOSCAMED</h2>
+  <p>Programa trinacional de prevención y erradicación de la mosca del Mediterráneo</p>
+</div>
+
+<!-- ─── MOSCAMED INTRO ─── -->
+<section class="mosca-hero" id="moscamed">
+  <div>
+    <div class="mosca-badge reveal">
+      <div class="mosca-badge-dot"></div>
+      <span>Programa activo desde 1978</span>
+    </div>
+    <div class="section-eyebrow reveal">Marco institucional</div>
+    <h2 class="section-title reveal">Protegiendo el patrimonio hortofrutícola</h2>
+    <p class="section-lead reveal" style="margin-bottom:1.8rem;">MOSCAMED es el programa responsable de la prevención y erradicación de la mosca del Mediterráneo (<em>Ceratitis capitata</em>) en México, Guatemala y países cooperantes, usando tecnología de punta amigable con el ambiente.</p>
+    <p style="font-size:0.92rem; color:var(--texto-medio); line-height:1.75; font-weight:300;" class="reveal">Desde 1982, México se ha mantenido libre de esta plaga gracias al programa, lo que permite a los productores mexicanos comercializar sus frutas y hortalizas a nivel nacional e internacional sin restricciones fitosanitarias.</p>
+  </div>
+  <div class="mosca-stat-stack reveal">
+    <div class="mosca-stat">
+      <div class="mosca-stat-icon">🪲</div>
+      <div>
+        <div class="mosca-stat-num">500M</div>
+        <div class="mosca-stat-desc">pupas producidas por semana en Metapa de Domínguez</div>
+      </div>
+    </div>
+    <div class="mosca-stat">
+      <div class="mosca-stat-icon">📅</div>
+      <div>
+        <div class="mosca-stat-num">1982</div>
+        <div class="mosca-stat-desc">año desde el cual México está libre de la plaga</div>
+      </div>
+    </div>
+    <div class="mosca-stat">
+      <div class="mosca-stat-icon">🪤</div>
+      <div>
+        <div class="mosca-stat-num">28,000+</div>
+        <div class="mosca-stat-desc">trampas operadas en todo el territorio nacional</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FILOSOFIA ─── -->
+<section class="filosofia-section" id="filosofia">
+  <div class="section-eyebrow reveal">Identidad institucional</div>
+  <h2 class="section-title reveal">Filosofía de MOSCAMED</h2>
+  <div class="filosofia-grid">
+    <div class="filo-card mision reveal">
+      <div class="filo-card-label">Misión</div>
+      <h3>"Somos el Programa responsable de la prevención y erradicación de la mosca del Mediterráneo..."</h3>
+      <p>...utilizando tecnología de punta amigable con el ambiente, para proteger el patrimonio hortofrutícola de Guatemala y los países cooperantes.</p>
+    </div>
+    <div class="filo-card vision reveal">
+      <div class="filo-card-label">Visión</div>
+      <h3>Organismo internacional especializado</h3>
+      <p>Ser referente para la prevención y erradicación de la mosca del Mediterráneo y otras moscas de la fruta, apoyando el desarrollo hortofrutícola y económico regional.</p>
+    </div>
+  </div>
+  <div class="mosca-valores reveal">
+    <h3 class="section-title" style="font-size:1.3rem; margin-top:2.5rem;">Valores institucionales</h3>
+    <div class="mosca-valores-grid">
+      <div class="mosca-valor-chip">Responsabilidad</div>
+      <div class="mosca-valor-chip">Integridad</div>
+      <div class="mosca-valor-chip">Respeto</div>
+      <div class="mosca-valor-chip">Actitud de servicio</div>
+      <div class="mosca-valor-chip">Lealtad</div>
+      <div class="mosca-valor-chip">Honradez</div>
+      <div class="mosca-valor-chip">Compromiso</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── HISTORIA MOSCAMED ─── -->
+<section class="mosca-historia" id="historia-mosca">
+  <div class="section-eyebrow">Historia del programa</div>
+  <h2 class="section-title reveal">De Chiapas al mundo</h2>
+  <div class="historia-mosca-content">
+    <div>
+      <p class="reveal">A finales de los años setenta, se construyó en <strong style="color:var(--verde-claro);">Metapa de Domínguez, Chiapas</strong>, la planta de cría y esterilización de la mosca del Mediterráneo. Esta instalación, ubicada a solo 15-20 minutos de Tapachula, se convirtió en la más importante de su tipo en el mundo.</p>
+      <p class="reveal">En 2009, el Instituto Interamericano de Cooperación para la Agricultura realizó una evaluación económica del programa (1978-2008), arrojando resultados positivos con base en la relación costo-beneficio. Desde entonces, México ha mantenido su estatus de zona libre de la plaga mediante acciones de control y erradicación amigables con el medio ambiente.</p>
+      <p class="reveal">El Senasica opera más de 28 mil trampas en todo el territorio nacional para detectar posibles incursiones de la mosca, de las cuales alrededor del <strong style="color:var(--mango);">65% se ubican en Chiapas</strong> por su cercanía con Guatemala, país con alta prevalencia de la plaga. El estatus fue ratificado oficialmente el 30 de octubre de 2014 en el Diario Oficial de la Federación.</p>
+    </div>
+    <div class="historia-mosca-aside reveal">
+      <div class="aside-stat">
+        <div class="num">1978</div>
+        <div class="desc">Construcción de la planta en Metapa de Domínguez</div>
+      </div>
+      <div class="aside-stat">
+        <div class="num">2014</div>
+        <div class="desc">Ratificación oficial en el Diario Oficial de la Federación</div>
+      </div>
+      <div class="aside-stat">
+        <div class="num">65%</div>
+        <div class="desc">de las trampas nacionales están en Chiapas</div>
+      </div>
+      <div class="aside-stat">
+        <div class="num">3</div>
+        <div class="desc">países cooperantes: México, Guatemala y EE. UU.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TÉCNICA ESTÉRIL ─── -->
+<section class="tecnica-section" id="tecnica">
+  <div class="section-eyebrow reveal">Control biológico</div>
+  <h2 class="section-title reveal">Técnica del Insecto Estéril</h2>
+  <p class="section-lead reveal">Un método ecológico y preciso que elimina la plaga sin contaminantes químicos, aprovechando el propio ciclo de vida del insecto.</p>
+  <div class="tecnica-steps">
+    <div class="step reveal">
+      <div class="step-circle s1">🥚</div>
+      <h4>Cría de larvas</h4>
+      <p>Se recolectan huevos de las colonias, se lavan, se incuban y se desarrollan hasta la fase larval en charolas especiales con dieta proteica.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-circle s2">🫙</div>
+      <h4>Pupación</h4>
+      <p>Las larvas maduran hasta convertirse en pupas. Se separan y clasifican con precisión para asegurar la calidad del lote.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-circle s3">☢️</div>
+      <h4>Esterilización</h4>
+      <p>Las pupas se exponen a rayos Gamma en la planta de irradiación, esterilizando a los machos sin afectar su capacidad de apareamiento.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-circle s4">🛩️</div>
+      <h4>Liberación en campo</h4>
+      <p>Los machos estériles se liberan aéreo y terrestremente en zonas de riesgo. Al aparearse con hembras fértiles, la progenie no prospera.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── UBICACIÓN ─── -->
+<section class="ubicacion-section" id="ubicacion">
+  <div class="section-eyebrow reveal">Instalaciones</div>
+  <h2 class="section-title reveal">Ubicación de MOSCAMED</h2>
+  <div class="ubicacion-grid">
+    <div class="ubi-card reveal">
+      <div class="place-icon">🏭</div>
+      <h4>Planta principal</h4>
+      <p>Av. Central Sur s/n, Metapa de Domínguez, Chiapas. C.P. 30860. La más importante y moderna planta de cría y esterilización de moscas del mundo.</p>
+    </div>
+    <div class="ubi-card reveal">
+      <div class="place-icon">📦</div>
+      <h4>Instalación de empaque</h4>
+      <p>Tapachula, Chiapas. Preparación y acondicionamiento de pupas antes de su liberación o procesamiento final en campo.</p>
+    </div>
+    <div class="ubi-card reveal">
+      <div class="place-icon">🏢</div>
+      <h4>Oficinas de campo</h4>
+      <p>Km 19.8, Carretera a Puerto Madero S/N, Col. El Carmen Cantón Leoncillos, C.P. 30832, Tapachula, Chiapas.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CONCLUSIONES ─── -->
+<section class="conclusiones-section" id="conclusiones">
+  <div class="section-eyebrow reveal">Reflexión final</div>
+  <h2 class="section-title reveal">Conclusiones</h2>
+  <div class="conclusiones-grid">
+    <div class="conclusion-text">
+      <p class="reveal">La visita guiada al programa MOSCAMED representó una experiencia enriquecedora que permitió relacionar los conocimientos adquiridos en clase con situaciones reales de trabajo. Se observó cómo el ingeniero químico participa activamente en el tratamiento de agua residual, la normatividad ambiental, la optimización de procesos biológicos y el control de calidad dentro de una institución de impacto nacional e internacional.</p>
+      <p class="reveal">Lo que más destacó fue el método de control biológico basado en insectos estériles: una estrategia que elimina la necesidad de grandes cantidades de plaguicidas, protegiendo ecosistemas y producción agrícola al mismo tiempo. La Ingeniería Química resulta fundamental para mantener los parámetros precisos que hacen funcionar este proceso.</p>
+      <p class="reveal">La entrevista con la Ing. Monserrat Ochoa Gómez confirmó que esta carrera no solo se limita a laboratorios industriales, sino que puede contribuir en proyectos relacionados con la agricultura, la salud ambiental y el control de plagas, con impacto directo en la economía regional y nacional.</p>
+    </div>
+    <div class="sugerencias-box reveal">
+      <h4>Sugerencias del proyecto</h4>
+      <p>Para estudiantes que aún no deciden su carrera: acercarse a empresas como MOSCAMED a través de visitas guiadas permite conocer de primera mano cómo se aplican los conocimientos científicos en el mundo laboral real.</p>
+      <br>
+      <p>La combinación de matemáticas, química y biología que ofrece la Ingeniería Química abre puertas en sectores tan diversos como el ambiental, el alimentario, el farmacéutico y el de control de plagas.</p>
+      <br>
+      <p style="font-size:0.8rem; opacity:0.75;">Consejo de la entrevistada: "Sean perseverantes, no se rindan si una materia les cuesta más trabajo. Sean críticos, no se crean todo lo que leen; busquen la misma información en distintas referencias."</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div>
+    <h5>Presentado por</h5>
+    <p class="footer-authors">
+      De la Cruz Gómez Eli Alberto<br>
+      Gerardo Barrios Itzel Alejandra<br>
+      Hernandez Dorry Andrea<br>
+      Hernández Martínez Darell de Jesús
+    </p>
+  </div>
+  <div>
+    <h5>Institución</h5>
+    <p>Preparatoria Particular Incorporada<br>Colegio Miguel Hidalgo<br>Clave: 07PBH3003C<br>Tapachula, Chiapas</p>
+  </div>
+  <div>
+    <h5>Proyecto</h5>
+    <p>Impacto laboral de la carrera Ingeniería Química en MOSCAMED, Tapachula, Chiapas.<br>Periodo: febrero – junio 2025</p>
+  </div>
+</footer>
+<div class="footer-bottom">
+  © 2026 Colegio Miguel Hidalgo · Tapachula, Chiapas · Proyecto de orientación vocacional
+</div>
+
+<script>
+  // ─── SCROLL REVEAL ───
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  revealEls.forEach(el => observer.observe(el));
+
+  // ─── OFERTA EDUCATIVA TABS ───
+  function showOferta(nivel, btn) {
+    document.querySelectorAll('.oferta-content').forEach(c => c.style.display = 'none');
+    document.querySelectorAll('.oferta-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('oferta-' + nivel).style.display = 'block';
+    btn.classList.add('active');
+  }
+
+  // ─── NAV ACTIVE LINK ───
+  const sections = document.querySelectorAll('section[id], div[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) current = s.getAttribute('id');
+    });
+    navLinks.forEach(link => {
+      link.style.color = link.getAttribute('href') === '#' + current
+        ? 'var(--verde-selva)'
+        : '';
+    });
+  });
+</script>
+</body>
+</html>
